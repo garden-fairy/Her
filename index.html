@@ -3,59 +3,241 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Her 💗 Pregnancy & Period Tracker</title>
+  <title>Her — Cycle & Pregnancy Companion</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="card">
-    <h1>💗 Her</h1>
-    <p>Your cycle & pregnancy companion</p>
+  <header class="appbar">
+    <div class="brand">
+      <span class="logo">💗</span>
+      <h1>Her</h1>
+    </div>
+    <button id="openTips" class="icon-btn" aria-label="Tips">📚</button>
   </header>
 
-  <main>
+  <main class="container">
+
+    <!-- Period log card -->
     <section class="card">
-      <h2>🔥 Log period</h2>
-      <p>Log when your period starts or ends.</p>
-      <button id="logPeriodBtn">Add Entry</button>
-      <ul id="entries"></ul>
+      <div class="card-head">
+        <h2>🔥 Log period</h2>
+        <p class="muted">Log when your period starts or ends. Add heaviness & symptoms.</p>
+      </div>
+
+      <div class="stack-gap">
+        <button class="btn primary" id="openAdd">Add Entry</button>
+
+        <ul id="entries" class="list"></ul>
+
+        <p id="emptyState" class="muted center" hidden>No entries yet. Tap “Add Entry”.</p>
+      </div>
     </section>
 
+    <!-- Learn / tips -->
     <section class="card">
-      <h2>🤰 Mood & Symptoms</h2>
-      <p>Track how you feel physically and emotionally.</p>
-      <button id="logMoodBtn">Add Note</button>
-    </section>
-
-    <section class="card">
-      <h2>📚 Learn</h2>
-      <p>Explore quick, medically-reviewed cycle info.</p>
-      <button id="learnBtn">Read Tips</button>
+      <div class="card-head">
+        <h2>📖 Learn</h2>
+        <p class="muted">Quick, medically-reviewed cycle info.</p>
+      </div>
+      <a class="btn ghost" href="https://www.nhs.uk/conditions/periods/" target="_blank" rel="noopener">Read NHS tips</a>
     </section>
   </main>
 
-  <footer>
-    <p>© <span id="year"></span> Her — All rights reserved.</p>
-  </footer>
+  <!-- Floating action button -->
+  <button id="fabAdd" class="fab" aria-label="Add entry">＋</button>
+
+  <!-- Add/Edit modal -->
+  <dialog id="entryModal" class="modal">
+    <form id="entryForm" method="dialog" class="sheet">
+      <header class="sheet-head">
+        <h3 id="sheetTitle">Add entry</h3>
+        <button type="button" class="icon-btn" id="closeModal" aria-label="Close">✖️</button>
+      </header>
+
+      <div class="field">
+        <label>Date & time</label>
+        <input type="datetime-local" id="dt" required />
+      </div>
+
+      <div class="field">
+        <label>Type</label>
+        <div class="segmented" role="group">
+          <input type="radio" id="start" name="ptype" value="start" checked>
+          <label for="start">Start</label>
+          <input type="radio" id="end" name="ptype" value="end">
+          <label for="end">End</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Flow heaviness</label>
+        <div class="chips" id="heavyChips">
+          <input type="radio" id="light" name="heavy" value="light" checked>
+          <label for="light">🟡 Light</label>
+          <input type="radio" id="medium" name="heavy" value="medium">
+          <label for="medium">🟠 Medium</label>
+          <input type="radio" id="heavy" name="heavy" value="heavy">
+          <label for="heavy">🔴 Heavy</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Symptoms</label>
+        <div class="chips multi">
+          <!-- Feel free to tweak these -->
+          <input type="checkbox" id="cramps" value="Cramps">
+          <label for="cramps">💢 Cramps</label>
+
+          <input type="checkbox" id="bloating" value="Bloating">
+          <label for="bloating">🌫️ Bloating</label>
+
+          <input type="checkbox" id="fatigue" value="Fatigue">
+          <label for="fatigue">😴 Fatigue</label>
+
+          <input type="checkbox" id="headache" value="Headache">
+          <label for="headache">🤕 Headache</label>
+
+          <input type="checkbox" id="mood" value="Mood swings">
+          <label for="mood">😵‍💫 Mood</label>
+
+          <input type="checkbox" id="nausea" value="Nausea">
+          <label for="nausea">🤢 Nausea</label>
+
+          <input type="checkbox" id="back" value="Back pain">
+          <label for="back">💢 Back</label>
+
+          <input type="checkbox" id="acne" value="Acne">
+          <label for="acne">🧴 Acne</label>
+        </div>
+      </div>
+
+      <div class="sheet-actions">
+        <button type="button" class="btn ghost" id="cancelBtn">Cancel</button>
+        <button class="btn primary" id="saveBtn">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <footer class="foot muted">© <span id="yr"></span> Her — All rights reserved.</footer>
 
   <script>
-    // little interactive demo
-    const entries = document.getElementById('entries');
-    document.getElementById('logPeriodBtn').onclick = () => {
-      const li = document.createElement('li');
-      li.className = 'entry';
-      li.textContent = '🩸 Period logged at ' + new Date().toLocaleString();
-      entries.prepend(li);
+  // --------- storage helpers ----------
+  const KEY = 'her.periodEntries.v1';
+  const $ = sel => document.querySelector(sel);
+
+  const load = () => {
+    try { return JSON.parse(localStorage.getItem(KEY)) || []; }
+    catch { return []; }
+  }
+  const save = (arr) => localStorage.setItem(KEY, JSON.stringify(arr));
+
+  // --------- state & DOM refs ----------
+  let entries = load();
+
+  const ul = $('#entries');
+  const empty = $('#emptyState');
+  const modal = $('#entryModal');
+  const form = $('#entryForm');
+  const dt = $('#dt');
+  const sheetTitle = $('#sheetTitle');
+
+  // default date
+  const nowISO = () => new Date(Date.now() - new Date().getTimezoneOffset()*60000).toISOString().slice(0,16);
+
+  function render() {
+    ul.innerHTML = '';
+    if (!entries.length) {
+      empty.hidden = false;
+      return;
+    }
+    empty.hidden = true;
+
+    entries
+      .sort((a,b)=> new Date(b.dt) - new Date(a.dt))
+      .forEach((e, i) => {
+        const li = document.createElement('li');
+        li.className = 'row';
+        const when = new Date(e.dt);
+        const dateStr = when.toLocaleString();
+
+        const heavemap = { light:'🟡 Light', medium:'🟠 Medium', heavy:'🔴 Heavy' };
+        const badge = heavemap[e.heavy] || e.heavy;
+
+        li.innerHTML = `
+          <div class="row-main">
+            <div class="title">
+              ${e.type === 'start' ? '🩸 Period started' : '✅ Period ended'}
+            </div>
+            <div class="meta">
+              ${dateStr} • <span class="badge">${badge}</span>
+              ${e.symptoms?.length ? ' • ' + e.symptoms.map(s => `<span class="pill">${s}</span>`).join(' ') : ''}
+            </div>
+          </div>
+          <div class="row-actions">
+            <button class="icon-btn" title="Delete" aria-label="Delete" data-del="${i}">🗑️</button>
+          </div>
+        `;
+        ul.appendChild(li);
+      });
+  }
+
+  // --------- modal open/close ----------
+  function openAdd() {
+    form.reset();
+    dt.value = nowISO();
+    sheetTitle.textContent = 'Add entry';
+    modal.showModal();
+  }
+  function closeModal() {
+    modal.close();
+  }
+
+  // --------- save entry ----------
+  form.addEventListener('submit', (ev) => {
+    ev.preventDefault();
+
+    const type = form.querySelector('input[name="ptype"]:checked').value;
+    const heavy = form.querySelector('input[name="heavy"]:checked').value;
+
+    const symptoms = Array.from(form.querySelectorAll('.chips.multi input[type="checkbox"]'))
+      .filter(c => c.checked)
+      .map(c => c.value);
+
+    const entry = {
+      dt: dt.value,
+      type,
+      heavy,
+      symptoms
     };
 
-    document.getElementById('logMoodBtn').onclick = () => {
-      alert('Mood logging coming soon 💬');
-    };
+    entries.push(entry);
+    save(entries);
+    render();
+    closeModal();
+  });
 
-    document.getElementById('learnBtn').onclick = () => {
-      alert('Education hub coming soon 📖');
-    };
+  // delete
+  ul.addEventListener('click', (e) => {
+    const del = e.target.closest('[data-del]');
+    if (!del) return;
+    const idx = +del.dataset.del;
+    entries.splice(idx, 1);
+    save(entries);
+    render();
+  });
 
-    document.getElementById('year').textContent = new Date().getFullYear();
+  // buttons & misc
+  $('#openAdd').addEventListener('click', openAdd);
+  $('#fabAdd').addEventListener('click', openAdd);
+  $('#closeModal').addEventListener('click', closeModal);
+  $('#cancelBtn').addEventListener('click', closeModal);
+  $('#openTips').addEventListener('click', () => {
+    window.open('https://www.nhs.uk/conditions/periods/', '_blank');
+  });
+
+  // init
+  $('#yr').textContent = new Date().getFullYear();
+  render();
   </script>
 </body>
 </html>

@@ -2,49 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Her – Pregnancy & Period Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Her — Pregnancy & Period Tracker</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
   <header>
-    <h1>🩷 Her</h1>
-    <p>Your pregnancy & period tracking app</p>
+    <h1>💗 Her</h1>
+    <p>Your pregnancy & period companion</p>
   </header>
 
   <main>
-    <section>
-      <h2>🩸 Period Tracker</h2>
-      <p>Log your cycle, symptoms, and moods easily.</p>
-      <button>Track My Cycle</button>
+    <section class="card">
+      <h2>🩸 Log a period</h2>
+      <p>Log your start date to track cycles and predictions.</p>
+      <button id="logPeriodBtn">Add period</button>
     </section>
 
-    <section>
-      <h2>🤰 Pregnancy Tracker</h2>
-      <p>Monitor progress and milestones each week.</p>
-      <button>Track My Pregnancy</button>
+    <section class="card">
+      <h2>🤰 Track symptoms</h2>
+      <p>Monitor mood, cramps, nausea and more.</p>
+      <button id="addSymptomBtn">Add symptom</button>
     </section>
 
-    <section>
-      <h2>🧘 Self-Care & Wellness</h2>
-      <p>Take time for you — meditate, hydrate, and rest.</p>
-      <button>Open Journal</button>
+    <section class="card">
+      <h2>📅 Reminders</h2>
+      <p>Set gentle reminders for meds, vitamins, or appointments.</p>
+      <button id="addReminderBtn">Create reminder</button>
     </section>
 
-    <section>
-      <h2>📚 Learn</h2>
-      <p>Explore helpful info about your body and mind.</p>
-      <button>Open Resources</button>
+    <section class="card">
+      <h2>📚 Resources</h2>
+      <p>Evidence-based tips tailored to your cycle stage.</p>
+      <button id="readTipsBtn">Read tips</button>
     </section>
   </main>
 
   <footer>
-    <p>© 2025 Her App</p>
+    <p>© <span id="year"></span> Her</p>
   </footer>
 
   <script>
-    console.log("Her App loaded successfully 💖");
+    // Tiny bit of JS just so the footer year updates
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>

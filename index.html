@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Her 💗 Pregnancy & Period Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="card">
+    <h1>💗 Her</h1>
+    <p>Your cycle & pregnancy companion</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>🔥 Log period</h2>
+      <p>Log when your period starts or ends.</p>
+      <button id="logPeriodBtn">Add Entry</button>
+      <ul id="entries"></ul>
+    </section>
+
+    <section class="card">
+      <h2>🤰 Mood & Symptoms</h2>
+      <p>Track how you feel physically and emotionally.</p>
+      <button id="logMoodBtn">Add Note</button>
+    </section>
+
+    <section class="card">
+      <h2>📚 Learn</h2>
+      <p>Explore quick, medically-reviewed cycle info.</p>
+      <button id="learnBtn">Read Tips</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>© <span id="year"></span> Her — All rights reserved.</p>
+  </footer>
+
+  <script>
+    // little interactive demo
+    const entries = document.getElementById('entries');
+    document.getElementById('logPeriodBtn').onclick = () => {
+      const li = document.createElement('li');
+      li.className = 'entry';
+      li.textContent = '🩸 Period logged at ' + new Date().toLocaleString();
+      entries.prepend(li);
+    };
+
+    document.getElementById('logMoodBtn').onclick = () => {
+      alert('Mood logging coming soon 💬');
+    };
+
+    document.getElementById('learnBtn').onclick = () => {
+      alert('Education hub coming soon 📖');
+    };
+
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

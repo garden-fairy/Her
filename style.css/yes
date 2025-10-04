@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Her – Pregnancy & Period Tracker</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header>
+    <h1>🩷 Her</h1>
+    <p>Your pregnancy & period tracking app</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>🩸 Period Tracker</h2>
+      <p>Log your cycle, symptoms, and moods easily.</p>
+      <button>Track My Cycle</button>
+    </section>
+
+    <section>
+      <h2>🤰 Pregnancy Tracker</h2>
+      <p>Monitor progress and milestones each week.</p>
+      <button>Track My Pregnancy</button>
+    </section>
+
+    <section>
+      <h2>🧘 Self-Care & Wellness</h2>
+      <p>Take time for you — meditate, hydrate, and rest.</p>
+      <button>Open Journal</button>
+    </section>
+
+    <section>
+      <h2>📚 Learn</h2>
+      <p>Explore helpful info about your body and mind.</p>
+      <button>Open Resources</button>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Her App</p>
+  </footer>
+
+  <script>
+    console.log("Her App loaded successfully 💖");
+  </script>
+</body>
+</html>

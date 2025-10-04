@@ -1,0 +1,85 @@
+/* 🌸 HER App Style — soft, confident, feminine aesthetic */
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(180deg, #ffe6f2, #fff);
+  color: #333;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+}
+
+header {
+  margin-bottom: 30px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #e75480;
+}
+
+h2 {
+  font-size: 1.8rem;
+  color: #d63384;
+  margin-top: 40px;
+}
+
+p {
+  font-size: 1.1rem;
+  color: #555;
+}
+
+button {
+  background-color: #e75480;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  margin-top: 10px;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: #d63384;
+  transform: scale(1.05);
+}
+
+footer {
+  margin-top: 60px;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+.card {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  margin: 15px auto;
+  width: 90%;
+  max-width: 500px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  background: #ffe6f2;
+  border-radius: 10px;
+  margin: 10px 0;
+  padding: 10px;
+  color: #333;
+}
+
+a {
+  color: #d63384;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+a:hover {
+  text-decoration: underline;
+}
